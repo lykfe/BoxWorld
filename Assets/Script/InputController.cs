@@ -94,8 +94,9 @@ public class InputController : MonoBehaviour {
             if (IsLeftPressed)
             {
                 SpawnCube();
-             }else if(!IsLeftPressed)
+             }else if(!IsLeftPressed && PreviewCube != null)
             {
+                PreviewCube.gameObject.layer = 10;
                 PreviewCube = null;
             }
             //Update Camera Location
@@ -130,13 +131,13 @@ public class InputController : MonoBehaviour {
             HingeJoint2D cubejoint = PreviewCube.GetComponent(typeof(HingeJoint2D)) as HingeJoint2D;
             if (!cubejoint.enabled)
             {
-                cubejoint.enabled = true;
+                //cubejoint.enabled = true;
             }
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
             mousePos.z = 0;
             PreviewCube.transform.position = mousePos;
-            cubejoint.anchor = mousePos;
+            //cubejoint.anchor = mousePos;
 
 
         }
