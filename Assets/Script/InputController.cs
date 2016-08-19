@@ -128,11 +128,6 @@ public class InputController : MonoBehaviour {
         {
             print(PreviewCube.transform.position);
             PreviewingCube = true;
-            HingeJoint2D cubejoint = PreviewCube.GetComponent(typeof(HingeJoint2D)) as HingeJoint2D;
-            if (!cubejoint.enabled)
-            {
-                //cubejoint.enabled = true;
-            }
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
             mousePos.z = 0;
