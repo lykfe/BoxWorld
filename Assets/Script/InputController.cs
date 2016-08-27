@@ -29,17 +29,17 @@ public class InputController : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        if(Camcontroller != null)
+        if(Camcontroller)
         {
             this.Cam = Camcontroller.cam;
         }
 
-        if(Cube == null)
+        if(!Cube)
         {
             print("Cube is NULL");
         }
 
-        CursorMode = ECursorMode.Scroll;
+        CursorMode = ECursorMode.Build;
 
         IsLeftPressed = IsRightPressed = false;
         PreviewingCube = false;
@@ -51,6 +51,7 @@ public class InputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             CursorMode = ECursorMode.Scroll;
@@ -61,31 +62,16 @@ public class InputController : MonoBehaviour {
             CursorMode = ECursorMode.Build;
             print("BuildMode Entered");
         }
+        */
 
         //Mouse input update
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !IsLeftPressed)
-        {
-            IsLeftPressed = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0) && IsLeftPressed)
-        {
-            IsLeftPressed = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Mouse1) && !IsRightPressed)
-        {
-            IsRightPressed = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse1) && IsRightPressed)
-        {
-            IsRightPressed = false;
-        }
-
+        IsLeftPressed = Input.GetKey(KeyCode.Mouse0);
+        IsRightPressed = Input.GetKey(KeyCode.Mouse1);
+        
 
         if (CursorMode == ECursorMode.Scroll)
         {
             UpdateCamera();
-            //
 
         }
         else if (CursorMode == ECursorMode.Build)
@@ -94,7 +80,8 @@ public class InputController : MonoBehaviour {
             if (IsLeftPressed)
             {
                 SpawnCube();
-             }else if(!IsLeftPressed && PreviewCube != null)
+            }
+            else if(!IsLeftPressed && PreviewCube)
             {
                 PreviewCube.gameObject.layer = 10;
                 PreviewCube = null;
@@ -110,7 +97,7 @@ public class InputController : MonoBehaviour {
             float deltaMouseX = (MouseX - Input.GetAxis("Mouse X")) * MouseSensitivity;
             float deltaMouseY = (MouseY - Input.GetAxis("Mouse Y")) * MouseSensitivity;
 
-            if(Cam != null)
+            if(Cam)
             {
                 Cam.transform.Translate(new Vector3(deltaMouseX, deltaMouseY, 0.0f));
             }
@@ -122,11 +109,13 @@ public class InputController : MonoBehaviour {
         if (!PreviewCube)
         {
             PreviewCube = Instantiate(Cube);
+            PreviewCube.gameObject.AddComponent<Cube_RC>();
+            PreviewCube.gameObject.GetComponentInChildren<CubeIndicator>().SetUpText();
         }
 
         if (PreviewCube)
         {
-            print(PreviewCube.transform.position);
+            //print(PreviewCube.transform.position);
             PreviewingCube = true;
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 

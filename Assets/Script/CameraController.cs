@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour {
    
 	// Use this for initialization
 	void Start () {
-        if(cam == null)
+        if(!cam)
         {
             cam = Camera.main;
         }

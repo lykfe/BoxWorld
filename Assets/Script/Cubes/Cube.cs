@@ -7,11 +7,14 @@ public class Cube : MonoBehaviour {
     private string NPCname;
     public string Name { get; set; }
 
-	// Use this for initialization
-	void Start () {
+    public Cube()
+    {
         isActive = false;
         NPCname = null;
         Name = "Default";
+    }
+	// Use this for initialization
+	void Start () {
 	}
 	
 	// Update is called once per frame

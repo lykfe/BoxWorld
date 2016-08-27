@@ -6,9 +6,12 @@ public class Cube_RC : Cube {
 
     public ERCType Resource { get; set; }
 
-	// Use this for initialization
-	void Start () {
+    public Cube_RC()
+    {
         Resource = ERCType.None;
+    }
+	// Use this for initialization
+	void  Start () {
 	}
 	
 	// Update is called once per frame
@@ -16,8 +19,4 @@ public class Cube_RC : Cube {
 		
 	}
 
-	void OnCollisionEnter2D (Collision2D col)
-	{
-		print ("contact");
-	}
 }
