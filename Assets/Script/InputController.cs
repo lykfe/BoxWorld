@@ -39,7 +39,7 @@ public class InputController : MonoBehaviour {
             print("Cube is NULL");
         }
 
-        CursorMode = ECursorMode.Build;
+        CursorMode = ECursorMode.Scroll;
 
         IsLeftPressed = IsRightPressed = false;
         PreviewingCube = false;
@@ -50,7 +50,6 @@ public class InputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

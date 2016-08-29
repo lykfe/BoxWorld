@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public enum ERCType { None, Type1, Type2, Type3, Type4 }
 public class Cube_RC : Cube {
@@ -18,5 +19,12 @@ public class Cube_RC : Cube {
 	void Update () {
 		
 	}
+
+    public void Instantiate()
+    {
+       
+        Instantiate(this);
+        print("Instantiate");
+    }
 
 }
