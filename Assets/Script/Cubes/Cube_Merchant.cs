@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public class Cube_Merchant : Cube {
 
-public class Cube_Troop : Cube {
-
-    public Cube_Troop()
+    public Cube_Merchant()
     {
-        Name = "Cube_Troop";
+        Name = "Cube_Merchant";
     }
-
 	// Use this for initialization
 	void Start () {
-
 	}
 	
 	// Update is called once per frame

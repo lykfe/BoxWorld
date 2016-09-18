@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum ECursorMode { Build, Scroll, Menu}
 public class InputController : MonoBehaviour {
@@ -16,8 +17,8 @@ public class InputController : MonoBehaviour {
     private Camera Cam;
 
     //Cube Assets
-    public Cube Cube;
-    public Cube PreviewCube;
+    public GameObject DefaultCube;
+    private GameObject PreviewCube;
 
     //Mouse
     private float MouseX, MouseY;
@@ -25,6 +26,7 @@ public class InputController : MonoBehaviour {
 
     //Cube
     private bool PreviewingCube;
+    private bool CollidingCube;
 
     // Use this for initialization
     void Start () {
@@ -34,9 +36,9 @@ public class InputController : MonoBehaviour {
             this.Cam = Camcontroller.cam;
         }
 
-        if(!Cube)
+        if(!DefaultCube)
         {
-            print("Cube is NULL");
+            print("DefaultCube is NULL");
         }
 
         CursorMode = ECursorMode.Scroll;
@@ -50,6 +52,11 @@ public class InputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        //Mouse input update
+        IsLeftPressed = Input.GetKey(KeyCode.Mouse0);
+        IsRightPressed = Input.GetKey(KeyCode.Mouse1);
+
         /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -61,12 +68,6 @@ public class InputController : MonoBehaviour {
             CursorMode = ECursorMode.Build;
             print("BuildMode Entered");
         }
-        */
-
-        //Mouse input update
-        IsLeftPressed = Input.GetKey(KeyCode.Mouse0);
-        IsRightPressed = Input.GetKey(KeyCode.Mouse1);
-        
 
         if (CursorMode == ECursorMode.Scroll)
         {
@@ -87,6 +88,30 @@ public class InputController : MonoBehaviour {
             }
             //Update Camera Location
         }
+        */
+
+        //Make Spawned Cube Follow the mouse
+        if(PreviewingCube)
+        {
+            //Set Collision and Release
+            if(IsLeftPressed && !CollidingCube)
+            {
+                PreviewCube.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+                PreviewCube.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+                PreviewingCube = false;
+                PreviewCube = null;
+            }
+            else if(IsRightPressed)
+            {
+                PreviewingCube = false;
+                Destroy(PreviewCube);
+            }
+            else
+            {
+                CubeFollowCam();
+            }
+        }
+
     }
 
     void UpdateCamera()
@@ -103,18 +128,34 @@ public class InputController : MonoBehaviour {
         }
     }
 
-    void SpawnCube()
+    public void SpawnCube(int typeID)
     {
         if (!PreviewCube)
         {
-            PreviewCube = Instantiate(Cube);
-            PreviewCube.gameObject.AddComponent<Cube_RC>();
-            PreviewCube.gameObject.GetComponentInChildren<CubeIndicator>().SetUpText();
+            PreviewCube = Instantiate(DefaultCube);
+            if(PreviewCube)
+            {
+                switch (typeID)
+                {
+                    case 1:
+                        PreviewCube.gameObject.AddComponent<Cube_RC>();
+                        break;
+                    case 2:
+                        PreviewCube.gameObject.AddComponent<Cube_Troop>();
+                        break;
+                    case 3:
+                        PreviewCube.gameObject.AddComponent<Cube_Weapon>();
+                        break;
+                    case 4:
+                        PreviewCube.gameObject.AddComponent<Cube_Merchant>();
+                        break;
+                }
+                PreviewCube.gameObject.GetComponentInChildren<CubeIndicator>().SetUpText();
+            }
         }
 
         if (PreviewCube)
         {
-            //print(PreviewCube.transform.position);
             PreviewingCube = true;
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -125,6 +166,26 @@ public class InputController : MonoBehaviour {
 
         }
             
+    }
+
+    void CubeFollowCam()
+    {
+        if(PreviewCube)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0;
+            PreviewCube.transform.position = mousePos;
+
+            //Collision issues
+            CollidingCube = PreviewCube.gameObject.GetComponent<Rigidbody2D>().IsTouchingLayers(LayerMask.GetMask("Cubes", "Ground"));
+            if(CollidingCube)
+            {
+                PreviewCube.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 0.76f, 0.76f, 1.0f);
+            } else
+            {
+                PreviewCube.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+            }
+        }
     }
     
 }

@@ -10,21 +10,14 @@ public class Cube_RC : Cube {
     public Cube_RC()
     {
         Resource = ERCType.None;
+        Name = "Cube_RC";
     }
 	// Use this for initialization
 	void  Start () {
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-
-    public void Instantiate()
-    {
-       
-        Instantiate(this);
-        print("Instantiate");
-    }
-
 }
