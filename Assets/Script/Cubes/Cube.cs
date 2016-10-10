@@ -6,6 +6,9 @@ public class Cube : MonoBehaviour {
     public bool isActive { get; set; }
     private string NPCname;
     public string Name { get; set; }
+    
+
+    public CubeController controller;
 
     public Cube()
     {

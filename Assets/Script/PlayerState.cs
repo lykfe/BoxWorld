@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class PlayerState : MonoBehaviour {
+public class PlayerState : MonoBehaviour, IPlayerController {
 
     private string playerName;
     public string Playername { get; set; }
@@ -20,4 +20,9 @@ public class PlayerState : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void IncrementResource(int val)
+    {
+        currency += val;
+    }
 }

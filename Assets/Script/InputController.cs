@@ -9,6 +9,9 @@ public class InputController : MonoBehaviour {
     [SerializeField]
     private float MouseSensitivity = 5.0f;
 
+    //Cube Controller
+    public CubeController cubeController;
+
     //Current cursor pointer
     public ECursorMode CursorMode { get; set; }
     
@@ -98,6 +101,7 @@ public class InputController : MonoBehaviour {
             {
                 PreviewCube.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
                 PreviewCube.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+                PreviewCube.gameObject.GetComponent<Cube>().isActive = true;
                 PreviewingCube = false;
                 PreviewCube = null;
             }
@@ -150,6 +154,7 @@ public class InputController : MonoBehaviour {
                         PreviewCube.gameObject.AddComponent<Cube_Merchant>();
                         break;
                 }
+                PreviewCube.gameObject.GetComponent<Cube>().controller = cubeController;
                 PreviewCube.gameObject.GetComponentInChildren<CubeIndicator>().SetUpText();
             }
         }
