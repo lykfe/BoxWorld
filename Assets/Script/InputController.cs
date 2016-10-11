@@ -101,7 +101,6 @@ public class InputController : MonoBehaviour {
             {
                 PreviewCube.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
                 PreviewCube.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-                PreviewCube.gameObject.GetComponent<Cube>().isActive = true;
                 PreviewingCube = false;
                 PreviewCube = null;
             }
@@ -155,7 +154,7 @@ public class InputController : MonoBehaviour {
                         break;
                 }
                 PreviewCube.gameObject.GetComponent<Cube>().controller = cubeController;
-                PreviewCube.gameObject.GetComponentInChildren<CubeIndicator>().SetUpText();
+                PreviewCube.gameObject.GetComponentInChildren<NameIndicator>().SetUpText();
             }
         }
 

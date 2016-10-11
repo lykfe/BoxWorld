@@ -15,8 +15,7 @@ public class Cube_RC : Cube
     // Use this for initialization
     void Start()
     {
-        this.gameObject.tag = "ResourceCube";
-        InvokeRepeating("Income", 0, 2.0f);
+        this.gameObject.tag = Name;
     }
 
     // Update is called once per frame
@@ -27,7 +26,7 @@ public class Cube_RC : Cube
 
     public void Income()
     {
-        if(controller && isActive)
+        if(controller && IsEnabled)
         {
             controller.IncrementResource(2);
         }
